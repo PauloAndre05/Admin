@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 const SignIn = () => {
   // document.location.hostname = '/auth/signin';
-  const login = "http://localhost:5555/loginAdminGeral/auth";
+  const login = "http://localhost:5555/login/auth";
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { getUserInfo } from "../pages/Authentication/services";
+import useFetch from "../hooks/usefetch";
 
 interface DataPosto{
   id: string
@@ -9,16 +11,16 @@ interface DataPosto{
 }
 
 const CardFour = () => {
-    const [dataPosto, setDataPosto] = useState([])
-    const urlPosto = "http://localhost:5555/posto" 
   
+  const [dataPosto, setDataPosto] = useState([])
+    
     const getPosto = async () =>{
       try{
-        const response = await fetch( urlPosto )
+        const response = await fetch(`http://localhost:5555/posto/`)
         if ( response.ok ) {
           const responseData = await response.json()
           setDataPosto(responseData)
-        }
+        }           
       }
       catch (error){
         console.log(error);
@@ -63,7 +65,7 @@ const CardFour = () => {
           <span className="text-sm font-medium">Total de agendamento</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-5">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-5">
           0.95%
           <svg
             className="fill-meta-5"
@@ -78,7 +80,7 @@ const CardFour = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

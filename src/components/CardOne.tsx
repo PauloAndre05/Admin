@@ -1,13 +1,26 @@
 import { useState } from "react";
+import { getUserInfo } from "../pages/Authentication/services";
+import useFetch from "../hooks/usefetch";
+
+interface DataPosto{
+  id: string
+  nome: string
+  Agendamento: any[]
+  Confirmado: any[]
+  Cancelado: any[]
+}
 
 const CardOne = () => {
 
-  const urlAgendamentos = "http://localhost:5555/agendamento"
   const [dataAgendamento, setDataAgendamento] = useState([])
+
+  const data = getUserInfo();
+  const { data: User } = useFetch(`/usuario/${data?.sub}`);
+  
 
   const getAgendamento =async () => {
     try{
-      const response = await fetch (urlAgendamentos)
+      const response = await fetch (`http://localhost:5555/agendamento/posto/${User.postoId}`)
       const responseData = await response.json()
       setDataAgendamento(responseData)
     }
@@ -18,6 +31,34 @@ const CardOne = () => {
 
   }
   getAgendamento()
+
+
+  const [dataPosto, setDataPosto] = useState([])
+    const urlPosto = "http://localhost:5555/posto" 
+  
+    const getPosto = async () =>{
+      try{
+        const response = await fetch( urlPosto )
+        if ( response.ok ) {
+          const responseData = await response.json()
+          setDataPosto(responseData)
+        }
+      }
+      catch (error){
+        console.log(error);
+      }
+    }
+  
+    getPosto()
+
+    const total = dataPosto.reduce(
+      (acc, data: DataPosto) => acc + data.Agendamento.length + data.Confirmado.length + data.Cancelado.length,
+      0
+    );
+
+
+    const percentagem = (dataAgendamento.length * total) / 100
+    const maior = (total * 50) / 100
 
   
 
@@ -46,8 +87,10 @@ const CardOne = () => {
           <span className="text-sm font-medium">Em andamento</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
-          0.43%
+        {percentagem > maior ? (
+          <span className="flex items-center gap-1 text-sm font-medium text-meta-3 animate-pulse duration-75">
+          {percentagem}%
+          
           <svg
             className="fill-meta-3"
             width="10"
@@ -62,6 +105,19 @@ const CardOne = () => {
             />
           </svg>
         </span>
+        ):(
+          <span className="flex items-center gap-1 text-sm font-medium text-meta-1 animate-pulse duration-75">
+          {percentagem}%
+
+          <svg 
+            className="fill-meta-1"
+            xmlns="http://www.w3.org/2000/svg" 
+            width="15" 
+            height="15" 
+            fill="#4f4040" 
+            viewBox="0 0 256 256"><path d="M208.49,152.49l-72,72a12,12,0,0,1-17,0l-72-72a12,12,0,0,1,17-17L116,187V40a12,12,0,0,1,24,0V187l51.51-51.52a12,12,0,0,1,17,17Z"></path></svg>
+        </span>
+        )}
       </div>
     </div>
   );

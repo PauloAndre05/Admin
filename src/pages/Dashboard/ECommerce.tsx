@@ -16,7 +16,7 @@ import { getUserInfo } from '../Authentication/services/index.ts';
 const ECommerce = () => {
   const pop = getUserInfo() as { id: string };
   const navigate = useNavigate();
-  const { data: User } = useFetch(`/users/${pop?.id}`);
+  const { data: User } = useFetch(`/usuario/${pop?.id}`);
   console.log(User);
 
   if (!pop) {

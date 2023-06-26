@@ -10,7 +10,7 @@ const DropdownUser = () => {
   
   const pop = getUserInfo();
   const id = pop?.sub
-  const { data: User } = useFetch(`/adminGeral/${id}`);
+  const { data: User } = useFetch(`/usuario/${id}`);
   
   function goOut() {
     logout();
@@ -57,13 +57,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {User?.nome}
+            {User?.posto?.nome}
           </span>
           <span className="block text-xs">{User?.email}</span>
         </span>
 
         <span className="flex h-10 w-10 items-center justify-center rounded-full border-2">
-          {User?.nome[0]?.toUpperCase()}
+          {User?.posto?.nome[0]?.toUpperCase()}
         </span>
 
         <svg

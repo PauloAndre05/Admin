@@ -1,6 +1,8 @@
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import React from 'react';
+import { mutate } from 'swr/_internal';
+import { useState } from "react";
 import { BsCheck2 } from 'react-icons/bs';
 type Itables = {
   heads: string[];
@@ -9,12 +11,14 @@ type Itables = {
   openModalEdit: (item: officilProps) => void; 
 };
 
+
 type officilProps = {
   id: string;
   nome: string
   dataAgenda: string
   postoAtendimento: postoAtendimentoProps
   servico: servicoProps
+  comprovativo: string
 };
 
 interface postoAtendimentoProps {
@@ -34,10 +38,41 @@ const TableThreePedidos: React.FC<Itables> = ({
   openModalEdit,
 }) => {
   console.log(data);
+
+  const [isOpenError, setIsOpenError] = useState(false)
+
+  const getAgendamentoByComprovativo = async(comprovativo: string) => {
+    try {
+        if (comprovativo === '') {
+          // Se o campo de pesquisa estiver vazio, chama a função getAgenda para obter todos os agendamentos novamente
+          mutate("/agendamento")
+          
+        } else {
+          const response = await fetch(`http://localhost:5555/agendamento/comprovativo/${comprovativo}`);
+      
+          if (response.ok) {
+            const responseData = await response.json();
+            data = responseData; 
+            mutate(responseData)
+            console.log(data);
+          }
+
+          else{
+            setIsOpenError(true)
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+}
   
   // const [item, setItem] = useState({});
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className='mb-4 flex  h-10 gap-5 items-center'>
+      <input type="text" placeholder='Procurar' className='text-black dark:text-white xl:pl-11 bg-gray-2 border-none outline-none dark:bg-meta-4 h-full' onChange={(comprovativo) => getAgendamentoByComprovativo(comprovativo.target.value)}/>
+      <span className='text-meta-1'>Agendamento não encontrado</span>
+      </div>
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
@@ -72,7 +107,7 @@ const TableThreePedidos: React.FC<Itables> = ({
                     <h5 className="font-medium text-black dark:text-white">
                       {format(
                         new Date(item?.dataAgenda),
-                        'dd/MM/yyyy',
+                        'dd-MM-yyyy',
                         { locale: ptBR }
                       )}
                     </h5>

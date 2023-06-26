@@ -5,6 +5,7 @@ interface UserInfo{
     id: string
     nome: string
     email: string
+    postoId: string
     sub: string
 }
 
