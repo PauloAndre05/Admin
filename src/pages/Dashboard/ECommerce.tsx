@@ -7,19 +7,18 @@ import CardTwo from '../../components/CardTwo.tsx';
 import ChartThree from '../../components/ChartThree.tsx';
 import ChartTwo from '../../components/ChartTwo.tsx';
 import MapOne from '../../components/MapOne.tsx'; */
-import ChatCard from '../../components/ChatCard.tsx';
-import TableOne from '../../components/TableOne.tsx';
+/* import ChatCard from '../../components/ChatCard.tsx';
+ */import TableOne from '../../components/TableOne.tsx';
 import useFetch from '../../hooks/usefetch.ts';
 import DefaultLayout from '../../layout/DefaultLayout.tsx';
 import { getUserInfo } from '../Authentication/services/index.ts';
 
 const ECommerce = () => {
-  const pop = getUserInfo() as { id: string };
+  const pop = getUserInfo()
   const navigate = useNavigate();
-  const { data: User } = useFetch(`/usuario/${pop?.id}`);
-  console.log(User);
+  const { data: User } = useFetch(`/usuario/${pop?.sub}`);
 
-  if (!pop) {
+  if (!User) {
     navigate('/auth/signin');
     return <></>;
   }
@@ -38,11 +37,11 @@ const ECommerce = () => {
         <ChartTwo />
         <ChartThree />
         <MapOne /> */}
-        <div className="col-span-12 xl:col-span-8 h-full ">
+        <div className="col-span-12 h-full w-full ">
           <TableOne />
         </div>
-        <ChatCard />
-      </div>
+        {/* <ChatCard /> */}
+      </div>  
     </DefaultLayout>
   );
 };

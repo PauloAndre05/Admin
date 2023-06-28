@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getUserInfo } from "../pages/Authentication/services";
 import useFetch from "../hooks/usefetch";
 
@@ -20,7 +20,7 @@ const CardThree = () => {
 
   const getCancelado =async () => {
     try{
-      const response = await fetch (`http://localhost:5555/cancelado/posto/${User.postoId}`)
+      const response = await fetch (`http://localhost:5555/cancelado/posto/${User?.postoId}`)
       const responseData = await response.json()
       setDataCancelado(responseData)
     }
@@ -30,7 +30,10 @@ const CardThree = () => {
     }
 
   }
-  getCancelado()
+
+  useEffect(() => {
+    getCancelado()
+  }, [])
 
   const [dataPosto, setDataPosto] = useState([])
     const urlPosto = "http://localhost:5555/posto" 
@@ -48,7 +51,9 @@ const CardThree = () => {
       }
     }
   
-    getPosto()
+    useEffect(() => {
+      getPosto()
+    }, [])
 
     const total = dataPosto.reduce(
       (acc, data: DataPosto) => acc + data.Agendamento.length + data.Confirmado.length + data.Cancelado.length,

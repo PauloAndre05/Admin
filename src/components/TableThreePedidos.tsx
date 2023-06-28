@@ -37,7 +37,6 @@ const TableThreePedidos: React.FC<Itables> = ({
   onRemove,
   openModalEdit,
 }) => {
-  console.log(data);
 
   const [isOpenError, setIsOpenError] = useState(false)
 
@@ -53,8 +52,8 @@ const TableThreePedidos: React.FC<Itables> = ({
           if (response.ok) {
             const responseData = await response.json();
             data = responseData; 
-            mutate(responseData)
             console.log(data);
+            
           }
 
           else{
@@ -78,20 +77,19 @@ const TableThreePedidos: React.FC<Itables> = ({
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               {heads?.map((item, idx) => (
-                <>
+               
                   <th
                     key={idx}
                     className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11"
                   >
                     {item}
                   </th>
-                </>
               ))}
             </tr>
           </thead>
           <tbody>
             {data?.map((item: officilProps) => (
-              <>
+ 
                 <tr key={item?.id} className="">
                   <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
@@ -125,7 +123,7 @@ const TableThreePedidos: React.FC<Itables> = ({
                         className="hover:text-primary"
                         onClick={() => onRemove(item)}
                       >
-                        <svg
+                       {/*  <svg
                           className="fill-current"
                           width="18"
                           height="18"
@@ -149,7 +147,7 @@ const TableThreePedidos: React.FC<Itables> = ({
                             d="M6.72245 9.67504C6.38495 9.70317 6.1037 10.0125 6.13182 10.35L6.3287 12.825C6.35683 13.1625 6.63808 13.4157 6.94745 13.4157C6.97558 13.4157 6.97558 13.4157 7.0037 13.4157C7.3412 13.3875 7.62245 13.0782 7.59433 12.7407L7.39745 10.2657C7.39745 9.90004 7.08808 9.64692 6.72245 9.67504Z"
                             fill=""
                           />
-                        </svg>
+                        </svg> */}
                       </button>
                       <button
                         className="hover:text-primary"
@@ -169,7 +167,6 @@ const TableThreePedidos: React.FC<Itables> = ({
                     </div> 
                   </td>
                 </tr>
-              </>
             ))}
           </tbody>
         </table>

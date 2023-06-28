@@ -10,6 +10,7 @@ import { mutate } from 'swr';
 import { FormCategory } from '../../components/FormCategory';
 import TableThreeCategory from '../../components/TableThreeCategory';
 import TableThreePedidos from '../../components/TableThreePedidos';
+import { getUserInfo } from '../Authentication/services';
 
 type officilProps = {
   id: string;
@@ -19,9 +20,12 @@ type officilProps = {
 };
 
 export const Pedidos = () => {
-  const { data: agendamento } = useFetch('/agendamento');
+  
+  const data = getUserInfo();
+  const { data: User } = useFetch(`/usuario/${data?.sub}`);
+  const { data: agendamento } = useFetch(`/agendamento/posto/${User?.postoId}`);
 
-  console.log(agendamento);
+  
 
   const [cancelado, setCancelado] = useState([])
 
@@ -61,7 +65,6 @@ export const Pedidos = () => {
     const dataFormatada = (`${ano}-${mes}-${dia}`)
 
     if(!(dataFormatada === item.dataAgenda)){
-      console.log("diferentes");
       toast.error("Agendamento em espera, inpossível confirmar")
       setIsOpenEdit(false)
       return
@@ -77,10 +80,6 @@ export const Pedidos = () => {
         mutate("/agendamento")
         toast.success("Agendamento confirmado com sucesso")
         const responseData = await response.json()
-        console.log("============================================");
-        console.log(responseData);
-        
-        console.log("============================================");
 
         try{
           const responseConfirmado = await fetch("http://localhost:5555/confirmado", {
@@ -122,7 +121,6 @@ export const Pedidos = () => {
     }
   }
 
-  console.log(cancelado.length);
 
   return (
     <DefaultLayout>
@@ -132,9 +130,10 @@ export const Pedidos = () => {
       </Modal>
 
       <Modal isOpen={isOpenEdit} onClose={closeModalEdit}>
-        <h2 className="mb-4 text-xl font-bold text-center text-white dark:text-black">Confirmar Agendamento</h2>
-        <div className='flex justify-around mt-5 mb-5 p-10'>
-          <button  onClick={closeModalEdit} className='bg-meta-1 px-10 py-3 text-white rounded hover:opacity-[.8]'>Rejeitar</button>
+        <h2 className="mb-4 text-xl font-bold text-center text-white dark:text-black mt-3">Confirmar Agendamento</h2>
+        <p className='text-center text-white'>Tem certeza que quer confirmar este agendamento?</p>
+        <div className='flex justify-around mt-3 mb-3 p-10'>
+          <button  onClick={closeModalEdit} className='bg-meta-1 px-10 py-3 text-white rounded hover:opacity-[.8]'>Cancelar</button>
           <button onClick={() => confirmar(item)} className=' bg-primary  px-10 py-3 text-white rounded hover:opacity-[.8]'>Confirmar</button>
         </div>
       </Modal>
@@ -150,6 +149,7 @@ export const Pedidos = () => {
           Adicionar
         </button>
       </div> */}
+      
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ">
         <TableThreePedidos
           heads={['Nome', 'Documento', 'Data agendada', 'Posto', 'Acção']}

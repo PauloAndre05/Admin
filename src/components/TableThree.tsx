@@ -1,10 +1,10 @@
 import React from 'react';
-import { AiOutlineEdit } from 'react-icons/ai';
+/* import { AiOutlineEdit } from 'react-icons/ai'; */
 type Itables = {
   heads: string[];
   data: officilProps[];
-  onRemove: (item: officilProps) => void;
-  openModalEdit: (item: officilProps) => void;
+ /*  onRemove: (item: officilProps) => void;
+  openModalEdit: (item: officilProps) => void; */
 };
 
 type officilProps = {
@@ -16,8 +16,8 @@ type officilProps = {
 const TableThree: React.FC<Itables> = ({
   heads,
   data,
-  onRemove,
-  openModalEdit,
+ /*  onRemove,
+  openModalEdit, */
 }) => {
   // const [item, setItem] = useState({});
   return (
@@ -57,7 +57,7 @@ const TableThree: React.FC<Itables> = ({
                       {item?.limiteDiario}
                     </h5>
                   </td>
-                  <td className="px-10">
+                 {/*  <td className="px-10">
                     <div className="flex items-center space-x-3.5">
                       <button
                         className="hover:text-primary"
@@ -96,7 +96,7 @@ const TableThree: React.FC<Itables> = ({
                         <AiOutlineEdit />
                       </button>
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               </>
             ))}

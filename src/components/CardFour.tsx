@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getUserInfo } from "../pages/Authentication/services";
 import useFetch from "../hooks/usefetch";
 
 interface DataPosto{
   id: string
   nome: string
+  local: string
+  cordenadas:string
+  limiteDiario: number
   Agendamento: any[]
   Confirmado: any[]
   Cancelado: any[]
@@ -12,11 +15,16 @@ interface DataPosto{
 
 const CardFour = () => {
   
-  const [dataPosto, setDataPosto] = useState([])
+  const [dataPosto, setDataPosto] = useState<DataPosto | null>(null);
+
+
+  const data = getUserInfo()
+  const  { data: User } = useFetch(`/usuario/${data?.sub}`)
+  
     
     const getPosto = async () =>{
       try{
-        const response = await fetch(`http://localhost:5555/posto/`)
+        const response = await fetch(`http://localhost:5555/posto/${User?.postoId}`)
         if ( response.ok ) {
           const responseData = await response.json()
           setDataPosto(responseData)
@@ -26,16 +34,26 @@ const CardFour = () => {
         console.log(error);
       }
     }
+
+    useEffect(() => {
+      getPosto()
+    }, [])
+
+
+    const getTotalAgendamentos = (posto: DataPosto | null): number => {
+      if (!posto) {
+        return 0;
+      }
   
-    getPosto()
-
-
-    const total = dataPosto.reduce(
-      (acc, data: DataPosto) => acc + data.Agendamento.length + data.Confirmado.length + data.Cancelado.length,
-      0
-    );
-
+      const totalAgendamentos =
+        posto.Agendamento.length + posto.Confirmado.length + posto.Cancelado.length;
   
+      return totalAgendamentos;
+    };
+  
+    const totalAgendamentos = getTotalAgendamentos(dataPosto);
+
+
 
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -60,7 +78,7 @@ const CardFour = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            {total}
+             {totalAgendamentos}  
           </h4>
           <span className="text-sm font-medium">Total de agendamento</span>
         </div>

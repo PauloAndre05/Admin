@@ -33,8 +33,8 @@ const SignIn = () => {
           navigate("/")
           formik.resetForm();
         } else {
-          console.log("erooon");
-          toast.error("Usuário ou senha incorrecta", {
+          console.log("erro");
+          toast.error("Email ou senha incorrecta", {
             autoClose: 1500,
           });
         }
@@ -89,12 +89,12 @@ const SignIn = () => {
                       placeholder="Email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-
+{/* 
                     {formik.touched.email && formik.errors.email ? (
                       <span className="text-danger">
                         {formik.errors.email}
                       </span>
-                    ) : null}
+                    ) : null} */}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -130,11 +130,11 @@ const SignIn = () => {
                       placeholder="Senha"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
-                    {formik.touched.senha && formik.errors.senha ? (
+                    {/* {formik.touched.senha && formik.errors.senha ? (
                       <span className="text-danger">
                         {formik.errors.senha}
                       </span>
-                    ) : null}
+                    ) : null} */}
 
                     <span className="absolute right-4 top-4">
                       <svg

@@ -46,7 +46,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }
   const pop = getUserInfo();
   const id = pop?.sub
-  const { data: User } = useFetch(`/adminGeral/${id}`);
+  const { data: User } = useFetch(`/usuario/${id}`);
  
   
 
