@@ -152,7 +152,7 @@ export const Pedidos = () => {
       
       <div className="w-full max-w-full rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ">
         <TableThreePedidos
-          heads={['Nome', 'Documento', 'Data agendada', 'Posto', 'Acção']}
+          heads={['ID', 'Nome', 'Documento', 'Data agendada', 'Posto', 'Acção']}
           data={agendamento}
           onRemove={onRemove}
           openModalEdit={openModalEdit} 
