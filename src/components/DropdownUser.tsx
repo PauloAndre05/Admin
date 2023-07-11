@@ -63,7 +63,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="flex h-10 w-10 items-center justify-center rounded-full border-2">
-          {User?.posto?.nome[0]?.toUpperCase()}
+          {User?.email[0]?.toUpperCase()}
         </span>
 
         <svg
